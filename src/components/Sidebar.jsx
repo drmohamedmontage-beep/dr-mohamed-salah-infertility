@@ -1,10 +1,10 @@
 import React from 'react'
-import { Stethoscope } from 'lucide-react'
+import { Stethoscope, LogOut } from 'lucide-react'
 
 const stepsEN = ['Basic Info', 'Male Factor', 'Hormones & Ovulation', 'Uterus & Tubes', 'Report & Rx', 'Patient Records', 'Clinical Decision Tool']
 const stepsAR = ['البيانات الأساسية', 'العامل الذكري', 'الهرمونات والتبويض', 'الرحم والأنابيب', 'التقرير والوصفة', 'سجلات المرضى', 'أداة القرار السريري']
 
-export default function Sidebar({ lang, setLang, currentStep, onStepClick }) {
+export default function Sidebar({ lang, setLang, currentStep, onStepClick, onLogout }) {
   const steps = lang === 'ar' ? stepsAR : stepsEN
 
   return (
@@ -54,12 +54,21 @@ export default function Sidebar({ lang, setLang, currentStep, onStepClick }) {
       </nav>
 
       {/* Footer Info */}
-      <div className="p-4 border-t border-gray-200 text-xs text-gray-600">
-        <p>
+      <div className="p-4 border-t border-gray-200 space-y-3">
+        <p className="text-xs text-gray-600">
           {lang === 'ar'
             ? 'نظام دعم القرار السريري لعلاج العقم'
             : 'Infertility CDSS based on WHO 2021, RCOG & NICE guidelines'}
         </p>
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200 transition text-sm font-medium"
+          >
+            <LogOut size={16} />
+            {lang === 'ar' ? 'تسجيل الخروج' : 'Logout'}
+          </button>
+        )}
       </div>
     </aside>
   )
