@@ -1,7 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// WARNING: Temporary hardcoded credentials for production troubleshooting.
+// DO NOT commit real keys to a public repository. Replace the placeholder
+// strings below with the real values and remove this file change after
+// you resolve the environment variable issue.
+const supabaseUrl = "[https://xuhqueuqqmohxyortlrr.supabase.co]";
+const supabaseKey = "[eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1aHF1ZXVxcW1vaHh5b3J0bHJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1MzY2NDMsImV4cCI6MjA4MDExMjY0M30.WbitQ2HxC5EqSFacqsTwejP5uLbbzj04YRlthdeXthI]";
 
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
