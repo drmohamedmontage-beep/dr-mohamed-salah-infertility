@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Users, FileText, PillBottle, BarChart3, Settings, LogOut, Activity } from 'lucide-react'
+import { Users, FileText, Pill, BarChart3, Settings, LogOut, Activity } from 'lucide-react'
 import { patientService, medicineService, analyticsService, auditService, userService } from '../lib/supabase'
 import useAuth from '../lib/useAuth'
 
@@ -109,7 +109,7 @@ export default function AdminDashboard({ lang, onLogout }) {
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            <PillBottle className="w-4 h-4 inline ml-2" />
+            <Pill className="w-4 h-4 inline ml-2" />
             {isArabic ? 'الأدوية' : 'Medicines'} ({medicines.length})
           </button>
 
@@ -180,7 +180,7 @@ export default function AdminDashboard({ lang, onLogout }) {
                       <p className="text-gray-600 text-sm">{isArabic ? 'الأدوية' : 'Medicines'}</p>
                       <p className="text-3xl font-bold text-gray-900 mt-2">{medicines.length}</p>
                     </div>
-                    <PillBottle className="w-8 h-8 text-purple-500" />
+                    <Pill className="w-8 h-8 text-purple-500" />
                   </div>
                 </div>
 
