@@ -12,16 +12,19 @@ export default function App() {
   const auth = useAuth()
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
-      if (auth.isAdmin) {
-        setCurrentPage('admin')
+    // This logic should now correctly handle navigation after the loading is complete.
+    if (!auth.loading) {
+      if (auth.isAuthenticated) {
+        if (auth.isAdmin) {
+          setCurrentPage('admin')
+        } else {
+          setCurrentPage('wizard')
+        }
       } else {
-        setCurrentPage('wizard')
+        setCurrentPage('login')
       }
-    } else {
-      setCurrentPage('login')
     }
-  }, [auth.isAuthenticated, auth.isAdmin])
+  }, [auth.isAuthenticated, auth.isAdmin, auth.loading])
 
   const handleLogout = async () => {
     await auth.signOut()
@@ -29,11 +32,17 @@ export default function App() {
   }
 
   const handleLoginSuccess = () => {
-    if (auth.isAdmin) {
-      setCurrentPage('admin')
-    } else {
-      setCurrentPage('wizard')
-    }
+    // After login, the useEffect above will handle the redirect.
+    // We can just rely on the auth state change.
+  }
+
+  // Display a global loading screen while the auth state is being determined.
+  if (auth.loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-600">Loading Application...</p>
+      </div>
+    )
   }
 
   if (currentPage === 'login') {
