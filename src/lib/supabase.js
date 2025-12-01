@@ -230,6 +230,7 @@ export const userService = {
   },
 
   async getAllStaff(clinicId) {
+    if (!clinicId) return { data: [], error: null }
     const { data, error } = await supabase
       .from('user_profiles')
       .select('*')
@@ -291,6 +292,8 @@ export const auditService = {
 // ========== ANALYTICS ==========
 export const analyticsService = {
   async getStats(clinicId) {
+    if (!clinicId) return { totalPatients: 0, totalDiagnoses: 0 }
+
     const { data: patients } = await supabase
       .from('patients')
       .select('id', { count: 'exact', head: true })
@@ -361,6 +364,8 @@ export const exportService = {
 // ========== BACKUP FUNCTIONALITY ==========
 export const backupService = {
   async createBackup(clinicId) {
+    if (!clinicId) return { timestamp: new Date().toISOString(), patients: [], diagnoses: [] }
+
     const { data: patients } = await supabase
       .from('patients')
       .select('*')
