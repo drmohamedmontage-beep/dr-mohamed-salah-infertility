@@ -22,10 +22,10 @@ export default function PatientManagement({ lang }) {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (auth.profile?.clinic_id) {
+    if (auth.profile?.clinic_id || auth.user) {
       loadPatients()
     }
-  }, [auth.profile])
+  }, [auth.profile, auth.user])
 
   useEffect(() => {
     if (searchTerm) {
@@ -41,7 +41,8 @@ export default function PatientManagement({ lang }) {
   }, [searchTerm, patients])
 
   const loadPatients = async () => {
-    const { data, error } = await patientService.getAll()
+    const filters = auth.profile?.clinic_id ? { clinic_id: auth.profile.clinic_id } : {}
+    const { data, error } = await patientService.getAll(filters)
     if (!error) {
       setPatients(data || [])
     }

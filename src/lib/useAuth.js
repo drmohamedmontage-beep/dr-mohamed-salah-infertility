@@ -18,11 +18,9 @@ export default function useAuth() {
         } = await supabase.auth.getUser()
         if (!mounted) return
         setUser(currentUser ?? null)
-        console.log('Current user:', currentUser)
         if (currentUser) {
           const { data } = await userService.getProfile(currentUser.id)
           if (!mounted) return
-          console.log('User profile loaded:', data)
           setProfile(data ?? null)
         }
       } catch (err) {
@@ -41,16 +39,13 @@ export default function useAuth() {
       try {
         const currentUser = session?.user ?? null
         setUser(currentUser)
-        console.log('Auth state changed:', currentUser)
         if (currentUser) {
           const { data } = await userService.getProfile(currentUser.id)
-          console.log('Profile loaded on auth change:', data)
           setProfile(data ?? null)
         } else {
           setProfile(null)
         }
       } catch (err) {
-        console.error('Auth state change error:', err)
         setError(err)
       }
     })
