@@ -46,6 +46,28 @@ export default function LoginPage({ onLoginSuccess }) {
     }
   }
 
+  const demoSignIn = async () => {
+    setLoading(true)
+    setMessage('')
+    const demoEmail = 'demo@example.com'
+    const demoPassword = 'Demo123!@'
+    try {
+      // Try to sign in; if no user, sign up then sign in
+      const { data, error } = await auth.signIn({ email: demoEmail, password: demoPassword })
+      if (error) {
+        // create demo account
+        await auth.signUp({ email: demoEmail, password: demoPassword, metadata: { name: 'Demo Doctor', specialization: 'doctor', clinic: 'Demo Clinic', role: 'doctor' } })
+        // sign in again
+        await auth.signIn({ email: demoEmail, password: demoPassword })
+      }
+      onLoginSuccess?.()
+    } catch (err) {
+      setMessage(err.message || 'Demo sign-in failed')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
@@ -168,6 +190,16 @@ export default function LoginPage({ onLoginSuccess }) {
             {loading ? 'جاري المعالجة...' : isSignUp ? 'إنشاء الحساب' : 'تسجيل الدخول'}
           </button>
         </form>
+        <div className="mt-4 text-center">
+          <button
+            type="button"
+            onClick={demoSignIn}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+            disabled={loading}
+          >
+            {loading ? 'Signing in...' : 'Sign in as demo'}
+          </button>
+        </div>
 
         <div className="mt-6 text-center">
           <button
