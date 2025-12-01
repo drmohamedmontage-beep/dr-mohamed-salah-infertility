@@ -57,6 +57,37 @@ export default function AdminDashboard({ lang, onLogout }) {
 
   const isArabic = lang === 'ar'
 
+  // If auth is still loading, show loading state
+  if (auth.loading) {
+    return (
+      <div className={`min-h-screen bg-gray-50 ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="text-center py-12">
+            <p className="text-gray-600">{isArabic ? 'جاري تحميل ملف التعريف...' : 'Loading profile...'}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // If profile didn't load, show clear message and actions instead of empty dashboard
+  if (!auth.profile) {
+    return (
+      <div className={`min-h-screen bg-gray-50 ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+        <div className="max-w-2xl mx-auto px-4 py-20 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{isArabic ? 'لم يتم تحميل ملف التعريف' : "Profile Not Loaded"}</h2>
+          <p className="text-gray-600 mb-6">{isArabic ? 'يجب تسجيل الدخول أو إعادة تحميل الصفحة لعرض البيانات.' : 'Please sign in or reload the page to load clinic data.'}</p>
+          <div className="flex items-center justify-center gap-3">
+            <button onClick={() => window.location.reload()} className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">{isArabic ? 'إعادة تحميل' : 'Reload'}</button>
+            {onLogout && (
+              <button onClick={onLogout} className="px-4 py-2 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300">{isArabic ? 'الانتقال لتسجيل الدخول' : 'Go to Login'}</button>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className={`min-h-screen bg-gray-50 ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Header */}
