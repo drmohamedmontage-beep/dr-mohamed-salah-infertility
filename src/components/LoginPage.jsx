@@ -20,11 +20,15 @@ export default function LoginPage({ onLoginSuccess }) {
 
     try {
       if (isSignUp) {
-        await auth.signUp(email, password, {
-          name: fullName,
-          specialization,
-          clinic,
-          role: 'doctor',
+        await auth.signUp({
+          email,
+          password,
+          metadata: {
+            name: fullName,
+            specialization,
+            clinic,
+            role: 'doctor',
+          },
         })
         setMessage('تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول.')
         setIsSignUp(false)
@@ -32,7 +36,7 @@ export default function LoginPage({ onLoginSuccess }) {
         setPassword('')
         setFullName('')
       } else {
-        await auth.signIn(email, password)
+        await auth.signIn({ email, password })
         onLoginSuccess?.()
       }
     } catch (err) {
