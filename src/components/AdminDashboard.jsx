@@ -14,8 +14,10 @@ export default function AdminDashboard({ lang, onLogout }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    loadDashboardData()
-  }, [])
+    if (auth.profile?.clinic_id) {
+      loadDashboardData()
+    }
+  }, [auth.profile])
 
   const loadDashboardData = async () => {
     try {

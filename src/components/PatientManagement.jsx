@@ -22,8 +22,10 @@ export default function PatientManagement({ lang }) {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    loadPatients()
-  }, [])
+    if (auth.profile?.clinic_id) {
+      loadPatients()
+    }
+  }, [auth.profile])
 
   useEffect(() => {
     if (searchTerm) {
