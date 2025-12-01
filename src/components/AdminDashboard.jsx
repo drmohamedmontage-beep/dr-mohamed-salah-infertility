@@ -73,8 +73,15 @@ export default function AdminDashboard({ lang, onLogout }) {
         <div className="max-w-2xl mx-auto px-4 py-20 text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">{isArabic ? 'لم يتم تحميل ملف التعريف' : "Profile Not Loaded"}</h2>
           <p className="text-gray-600 mb-6">{isArabic ? 'يجب تسجيل الدخول أو إعادة تحميل الصفحة لعرض البيانات.' : 'Please sign in or reload the page to load clinic data.'}</p>
+          <div className="text-sm text-gray-600 mb-4">
+            <p><strong>Auth loading:</strong> {String(auth.loading)}</p>
+            <p><strong>User:</strong> {auth.user ? `${auth.user?.email ?? '—'} (${auth.user?.id ?? '—'})` : 'Not signed in'}</p>
+            <p><strong>Error:</strong> {auth.error ? String(auth.error) : 'None'}</p>
+            <p><strong>Profile:</strong> {auth.profile ? JSON.stringify(auth.profile) : 'No profile'}</p>
+          </div>
           <div className="flex items-center justify-center gap-3">
             <button onClick={() => window.location.reload()} className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">{isArabic ? 'إعادة تحميل' : 'Reload'}</button>
+            <button onClick={() => auth.refreshProfile()} className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200">{isArabic ? 'تحديث الملف الشخصي' : 'Refresh Profile'}</button>
             {onLogout && (
               <button onClick={onLogout} className="px-4 py-2 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300">{isArabic ? 'الانتقال لتسجيل الدخول' : 'Go to Login'}</button>
             )}
