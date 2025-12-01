@@ -96,7 +96,20 @@ export default function useAuth() {
     try {
       const { data, error } = await userService.signIn({ email, password })
       if (error) throw error
-      setUser(data?.user ?? null)
+      const newUser = data?.user ?? null
+      setUser(newUser)
+
+      // Refresh the profile immediately after sign in to avoid race conditions where
+      // components attempt to load data before the profile is set.
+      if (newUser) {
+        try {
+          const { data: profile } = await userService.getProfile(newUser.id)
+          setProfile(profile ?? null)
+        } catch (e) {
+          // ignore profile fetch error here; onAuthStateChange listener will handle it
+          console.error('Failed to refresh profile after sign in:', e)
+        }
+      }
       return { data, error: null }
     } catch (err) {
       setError(err)
