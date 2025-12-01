@@ -14,8 +14,12 @@ export default function AdminDashboard({ lang, onLogout }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    console.log('Dashboard useEffect: auth.profile =', auth.profile)
     if (auth.profile?.clinic_id) {
+      console.log('Loading dashboard data with clinic_id:', auth.profile.clinic_id)
       loadDashboardData()
+    } else {
+      console.log('Dashboard waiting for auth.profile or clinic_id')
     }
   }, [auth.profile])
 
