@@ -229,6 +229,14 @@ export const userService = {
     return { data, error }
   },
 
+  async createProfile(userId, profile) {
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .insert([{ user_id: userId, ...profile }])
+      .select()
+    return { data, error }
+  },
+
   async getAllStaff(clinicId) {
     if (!clinicId) return { data: [], error: null }
     const { data, error } = await supabase

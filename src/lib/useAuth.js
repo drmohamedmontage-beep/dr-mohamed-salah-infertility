@@ -71,7 +71,22 @@ export default function useAuth() {
     try {
       const { data, error } = await userService.signUp({ email, password, metadata })
       if (error) throw error
-      setUser(data?.user ?? null)
+      const newUser = data?.user ?? null
+      setUser(newUser)
+
+      // If sign up returned a user and metadata provided, create a profile row
+      if (newUser && metadata) {
+        try {
+          const { data: profileData, error: profileError } = await userService.createProfile(newUser.id, metadata)
+          if (!profileError) {
+            // profileData may be an array (insert .select returns array)
+            setProfile(Array.isArray(profileData) ? profileData[0] ?? null : profileData ?? null)
+          }
+        } catch (e) {
+          console.error('Failed to create profile after signup:', e)
+        }
+      }
+
       return { data, error: null }
     } catch (err) {
       setError(err)
